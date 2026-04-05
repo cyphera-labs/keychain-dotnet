@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12</LangVersion>
+    <PackageId>Cyphera.Keychain</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Cyphera</Authors>
+    <Description>Key provider abstraction for Cyphera encryption SDKs</Description>
+    <PackageTags>cyphera;encryption;key-management;fpe</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+  </ItemGroup>
+</Project>
