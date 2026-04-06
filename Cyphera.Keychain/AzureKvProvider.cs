@@ -39,7 +39,7 @@ public sealed class AzureKvProvider : IKeyProvider
     {
         var plaintext = RandomNumberGenerator.GetBytes(32);
         var key = await _keyClient.GetKeyAsync(_keyName, cancellationToken: ct);
-        var cryptoClient = new CryptographyClient(new Uri(key.Value.Id), _credential);
+        var cryptoClient = new CryptographyClient(key.Value.Id, _credential);
         await cryptoClient.WrapKeyAsync(KeyWrapAlgorithm.RsaOaep, plaintext, ct);
         return plaintext;
     }
