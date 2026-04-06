@@ -19,6 +19,16 @@ public sealed class KeyNotFoundException : Exception
         Ref = @ref;
         Version = version;
     }
+
+    public KeyNotFoundException(string @ref, int? version, Exception innerException)
+        : base(version.HasValue
+            ? $"Key not found: ref=\"{@ref}\" version={version.Value}"
+            : $"Key not found: ref=\"{@ref}\"",
+            innerException)
+    {
+        Ref = @ref;
+        Version = version;
+    }
 }
 
 /// <summary>
