@@ -27,16 +27,15 @@ public class VaultProviderTests
     private static (Mock<IVaultClient>, VaultProvider) MakeProvider(Dictionary<string, object?> secretData)
     {
         var mock = new Mock<IVaultClient>();
-        var kvV2Mock = new Mock<IKeyValueSecretsEngineV2>();
         var secret = new Secret<SecretData>
         {
             Data = new SecretData { Data = secretData.ToDictionary(k => k.Key, v => (object)v.Value!) }
         };
-        kvV2Mock.Setup(m => m.ReadSecretAsync(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<string>()))
-              .ReturnsAsync(secret);
 
+        // Use a stub implementation to avoid Moq expression tree issues with optional params
+        var stubVault = new StubKeyValueV2(secret);
         var kvMock = new Mock<IKeyValueSecretsEngine>();
-        kvMock.Setup(m => m.V2).Returns(kvV2Mock.Object);
+        kvMock.Setup(m => m.V2).Returns(stubVault);
 
         var secretsMock = new Mock<ISecretsEngine>();
         secretsMock.Setup(m => m.KeyValue).Returns(kvMock.Object);
@@ -46,6 +45,29 @@ public class VaultProviderTests
 
         mock.Setup(m => m.V1).Returns(v1Mock.Object);
         return (mock, new VaultProvider(mock.Object));
+    }
+
+    /// <summary>Minimal stub to avoid Moq optional-param expression tree limitations.</summary>
+    private class StubKeyValueV2 : IKeyValueSecretsEngineV2
+    {
+        private readonly Secret<SecretData> _secret;
+        public StubKeyValueV2(Secret<SecretData> secret) => _secret = secret;
+
+        public Task<Secret<SecretData>> ReadSecretAsync(string path, int? version = null,
+            string mountPoint = "secret", string wrapTimeToLive = null!)
+            => Task.FromResult(_secret);
+
+        // Not used in tests — throw to detect unexpected calls
+        public Task<Secret<SecretData<Dictionary<string, object>>>> WriteSecretAsync(string path, IDictionary<string, object>? data, int? checkAndSet = null, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task<Secret<CurrentSecretMetadata>> ReadSecretMetadataAsync(string path, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task DeleteSecretAsync(string path, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task DestroySecretAsync(string path, IList<int> versions, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task DeleteSecretVersionsAsync(string path, IList<int> versions, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task UndeleteSecretVersionsAsync(string path, IList<int> versions, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task WriteSecretMetadataAsync(string path, CustomSecretMetadata metadata, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task<Secret<ListInfo>> ReadSecretPathsAsync(string path, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task<Secret<SecretSubkeysInfo>> ReadSecretSubkeysAsync(string path, int? version = null, int? depth = null, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task PatchSecretAsync(string path, IDictionary<string, object>? data, string mountPoint = "secret") => throw new NotImplementedException();
     }
 
     [Fact]
