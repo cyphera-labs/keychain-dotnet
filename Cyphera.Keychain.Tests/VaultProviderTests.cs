@@ -1,7 +1,10 @@
 using System.Text.Json;
 using Moq;
 using VaultSharp;
+using VaultSharp.V1;
 using VaultSharp.V1.Commons;
+using VaultSharp.V1.SecretsEngines;
+using VaultSharp.V1.SecretsEngines.KeyValue;
 using VaultSharp.V1.SecretsEngines.KeyValue.V2;
 using Xunit;
 using CypheraKeyNotFoundException = Cyphera.Keychain.KeyNotFoundException;
@@ -24,14 +27,24 @@ public class VaultProviderTests
     private static (Mock<IVaultClient>, VaultProvider) MakeProvider(Dictionary<string, object?> secretData)
     {
         var mock = new Mock<IVaultClient>();
-        var kvMock = new Mock<IKeyValueV2SecretsEngine>();
+        var kvV2Mock = new Mock<IKeyValueSecretsEngineV2>();
         var secret = new Secret<SecretData>
         {
             Data = new SecretData { Data = secretData.ToDictionary(k => k.Key, v => (object)v.Value!) }
         };
-        kvMock.Setup(m => m.ReadSecretAsync(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<string>()))
+        kvV2Mock.Setup(m => m.ReadSecretAsync(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<string>()))
               .ReturnsAsync(secret);
-        mock.Setup(m => m.V1.Secrets.KeyValue.V2).Returns(kvMock.Object);
+
+        var kvMock = new Mock<IKeyValueSecretsEngine>();
+        kvMock.Setup(m => m.V2).Returns(kvV2Mock.Object);
+
+        var secretsMock = new Mock<ISecretsEngine>();
+        secretsMock.Setup(m => m.KeyValue).Returns(kvMock.Object);
+
+        var v1Mock = new Mock<IVaultClientV1>();
+        v1Mock.Setup(m => m.Secrets).Returns(secretsMock.Object);
+
+        mock.Setup(m => m.V1).Returns(v1Mock.Object);
         return (mock, new VaultProvider(mock.Object));
     }
 
