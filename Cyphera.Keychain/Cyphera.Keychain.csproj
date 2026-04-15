@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
     <!-- Cloud SDKs: compile-only, not transitive. Add to your project if using that provider. -->
-    <PackageReference Include="AWSSDK.KeyManagementService" Version="3.7.400" PrivateAssets="all" />
+    <PackageReference Include="AWSSDK.KeyManagementService" Version="4.0.9.11" PrivateAssets="all" />
     <PackageReference Include="Google.Cloud.Kms.V1" Version="3.23.0" PrivateAssets="all" />
     <PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.9.0" PrivateAssets="all" />
     <PackageReference Include="Azure.Identity" Version="1.21.0" PrivateAssets="all" />
