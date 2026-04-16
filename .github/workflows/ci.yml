@@ -48,12 +48,12 @@ jobs:
           VAULT_DEV_ROOT_TOKEN_ID: root
           VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
           SKIP_SETCAP: "true"
+          VAULT_ADDR: http://127.0.0.1:8200
         options: >-
-          
-          --health-cmd "vault status -address=http://127.0.0.1:8200 || exit 1"
+          --health-cmd "vault status"
           --health-interval 10s
           --health-timeout 5s
-          --health-retries 10
+          --health-retries 15
     steps:
       - uses: actions/checkout@v6
 
