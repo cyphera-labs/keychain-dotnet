@@ -68,8 +68,8 @@ public class VaultProviderTests
         public Task<Secret<ListInfo>> ReadSecretPathsAsync(string path, string mountPoint = "secret") => throw new NotImplementedException();
         public Task<Secret<SecretSubkeysInfo>> ReadSecretSubkeysAsync(string path, int? version = null, int? depth = null, string mountPoint = "secret") => throw new NotImplementedException();
         public Task PatchSecretAsync(string path, IDictionary<string, object>? data, string mountPoint = "secret") => throw new NotImplementedException();
-        public Task ConfigureAsync(KeyValueConfigModel config, string mountPoint = "secret") => throw new NotImplementedException();
-        public Task<Secret<KeyValueConfigModel>> ReadConfigAsync(string mountPoint = "secret") => throw new NotImplementedException();
+        public Task ConfigureAsync(KeyValue2ConfigModel config, string mountPoint = "secret") => throw new NotImplementedException();
+        public Task<Secret<KeyValue2ConfigModel>> ReadConfigAsync(string mountPoint = "secret") => throw new NotImplementedException();
         public Task<Secret<SecretData<T>>> ReadSecretAsync<T>(string path, int? version = null, string mountPoint = "secret", string wrapTimeToLive = null!) => throw new NotImplementedException();
         public Task<Secret<SecretData<T>>> WriteSecretAsync<T>(string path, T data, int? checkAndSet = null, string mountPoint = "secret") => throw new NotImplementedException();
     }
