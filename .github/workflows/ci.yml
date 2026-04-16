@@ -1,4 +1,4 @@
-name: test
+name: CI
 
 on:
   push:
@@ -41,7 +41,7 @@ jobs:
           --health-timeout 5s
           --health-retries 15
       vault:
-        image: hashicorp/vault:1.18
+        image: hashicorp/vault:latest
         ports:
           - 8200:8200
         env:
