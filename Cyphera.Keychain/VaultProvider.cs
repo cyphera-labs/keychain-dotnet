@@ -64,7 +64,13 @@ public sealed class VaultProvider : IKeyProvider
 
     private KeyRecord ParseOne(string @ref, JsonElement element)
     {
-        var version = element.TryGetProperty("version", out var v) ? v.GetInt32() : 1;
+        var version = 1;
+        if (element.TryGetProperty("version", out var v))
+        {
+            version = v.ValueKind == System.Text.Json.JsonValueKind.Number
+                ? v.GetInt32()
+                : int.TryParse(v.GetString(), out var parsed) ? parsed : 1;
+        }
         var statusStr = element.TryGetProperty("status", out var s) ? s.GetString() ?? "active" : "active";
         var status = statusStr.ToLowerInvariant() switch
         {
