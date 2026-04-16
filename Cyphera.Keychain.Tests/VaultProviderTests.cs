@@ -81,7 +81,7 @@ public class VaultProviderTests
     {
         var (_, provider) = MakeProvider(new()
         {
-            ["version"] = "1",
+            ["version"] = 1,
             ["status"] = "active",
             ["algorithm"] = "adf1",
             ["material"] = MaterialHex,
@@ -98,7 +98,7 @@ public class VaultProviderTests
     {
         var (_, provider) = MakeProvider(new()
         {
-            ["version"] = "1",
+            ["version"] = 1,
             ["status"] = "disabled",
             ["material"] = MaterialHex,
         });
@@ -110,7 +110,7 @@ public class VaultProviderTests
     {
         var (_, provider) = MakeProvider(new()
         {
-            ["version"] = "1",
+            ["version"] = 1,
             ["status"] = "disabled",
             ["material"] = MaterialHex,
         });
@@ -122,7 +122,7 @@ public class VaultProviderTests
     {
         var (_, provider) = MakeProvider(new()
         {
-            ["version"] = "1",
+            ["version"] = 1,
             ["status"] = "active",
             ["material"] = MaterialHex,
         });
