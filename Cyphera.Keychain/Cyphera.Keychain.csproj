@@ -18,6 +18,6 @@
     <PackageReference Include="Google.Cloud.Kms.V1" Version="3.23.0" PrivateAssets="all" />
     <PackageReference Include="Azure.Security.KeyVault.Keys" Version="4.9.0" PrivateAssets="all" />
     <PackageReference Include="Azure.Identity" Version="1.21.0" PrivateAssets="all" />
-    <PackageReference Include="VaultSharp" Version="1.13.0" PrivateAssets="all" />
+    <PackageReference Include="VaultSharp" Version="1.17.5.1" PrivateAssets="all" />
   </ItemGroup>
 </Project>
