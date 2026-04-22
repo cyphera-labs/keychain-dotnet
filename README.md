@@ -181,4 +181,4 @@ Example Vault secret (`vault kv put secret/customer-primary ...`):
 
 ## License
 
-MIT
+Apache 2.0
