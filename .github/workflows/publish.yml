@@ -4,14 +4,23 @@ on:
   push:
     tags: ['v*']
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   publish:
+    name: Publish to NuGet
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 8.x
+        with: { dotnet-version: "8.0.x" }
       - run: dotnet test
-      - run: dotnet pack -c Release
-      - run: dotnet nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      - run: dotnet pack Cyphera.Keychain/Cyphera.Keychain.csproj -c Release -o ./nupkg
+      - name: NuGet login (OIDC)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: lgutschow
+      - run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

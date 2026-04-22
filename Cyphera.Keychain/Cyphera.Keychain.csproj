@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>12</LangVersion>
     <PackageId>Cyphera.Keychain</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.0.1-alpha.1</Version>
     <Authors>Cyphera</Authors>
     <Description>Key provider abstraction for Cyphera encryption SDKs</Description>
     <PackageTags>cyphera;encryption;key-management;fpe</PackageTags>
